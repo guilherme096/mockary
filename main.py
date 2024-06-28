@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
@@ -16,11 +16,16 @@ class OpenAIRequest(BaseModel):
 
 config = configparser.ConfigParser()
 
+if not os.path.exists("config.ini"):
+    raise Exception("Config file not found")
 
 load_dotenv()
 
 base_system = "I will provide a prompt with this structure -> {message: string, samples: int, fields: [field1,field2]} and you will generate a json with an array of size samples of objects with the specified fields and fill them with mock data, and the context from the field name and the message which specifies the data context."
 key = os.getenv("OPENAI_API_KEY")
+
+if key is None:
+    raise Exception("OpenAI API Key not found")
 
 client = OpenAI(api_key=key)
 app = FastAPI()
@@ -28,28 +33,15 @@ app = FastAPI()
 cache = {}
 
 
-@app.get("/")
-async def root():
-    return {"Hello": "World"}
-
-
-@app.post("/mock")
-async def mock(data: OpenAIRequest):
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": base_system},
-            {"role": "user", "content": str(data)},
-        ],
-        max_tokens=1000,
-        response_format={"type": "json_object"},
-    )
-
-    return eval(completion.choices[0].message.content)
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
 
 
 @app.post("/{mock}")
-async def preset(mock: str, samples: int, randomize: bool = False):
+async def preset(
+    mock: str, samples: int, randomize: bool = False, max_tokens: int = 10000
+):
     mock = mock.upper()
     path = ""
 
@@ -58,7 +50,7 @@ async def preset(mock: str, samples: int, randomize: bool = False):
 
     request = str(mock) + "_" + str(samples)
 
-    if request in cache:
+    if not randomize and request in cache:
         return cache[request]
 
     mock_type = None
@@ -75,7 +67,7 @@ async def preset(mock: str, samples: int, randomize: bool = False):
     except KeyError:
         return {"error": "Mock not found"}
 
-    if "save" in mock_type and mock_type["save"]:
+    if not randomize and "save" in mock_type and mock_type["save"]:
         if "save_path" in mock_type:
             path = mock_type["save_path"] + ".json"
         else:
@@ -96,7 +88,7 @@ async def preset(mock: str, samples: int, randomize: bool = False):
             {"role": "system", "content": base_system},
             {"role": "user", "content": str(openai_request)},
         ],
-        max_tokens=1000,
+        max_tokens=max_tokens,
         response_format={"type": "json_object"},
     )
 
