@@ -49,7 +49,7 @@ async def mock(data: OpenAIRequest):
 
 
 @app.post("/{mock}")
-async def preset(mock: str, samples: int):
+async def preset(mock: str, samples: int, randomize: bool = False):
     mock = mock.upper()
     path = ""
 
