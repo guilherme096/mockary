@@ -7,7 +7,7 @@ class Config:
     cache: bool = False
     model: str = "gpt-3.5-turbo"
     max_tokens: int = 4096
-    temperature: float = 0.0
+    temperature: float = 1.0
     base_system: str = "I will provide a prompt with this structure -> {message: string, samples: int, fields: [field1,field2]} and you will generate a json with an array of size samples of objects with the specified fields and fill them with mock data, and the context from the field name and the message which specifies the data context."
     key: str = ""
 

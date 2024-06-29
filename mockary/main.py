@@ -52,6 +52,8 @@ async def preset(mock: str, samples: int, randomize: bool = False):
 
     mock_type = None
     try:
+        # re-read file to allow for dynamic changes in config without restarting the server
+        config_parser = configparser.ConfigParser()
         config_parser.read("config.ini")
 
         mock_type = config_parser[mock]
@@ -71,6 +73,8 @@ async def preset(mock: str, samples: int, randomize: bool = False):
         else:
             path = mock.lower() + ".json"
 
+        path = os.path.expanduser(path)
+
         if os.path.exists(path):
             with open(path, "r") as file:
                 data = file.read()
@@ -87,6 +91,7 @@ async def preset(mock: str, samples: int, randomize: bool = False):
             {"role": "system", "content": config.base_system},
             {"role": "user", "content": str(openai_request)},
         ],
+        temperature=config.temperature,
         max_tokens=config.max_tokens,
         response_format={"type": "json_object"},
     )
