@@ -14,7 +14,7 @@ A feather weight mock data generator API
 
 ## Installation
 
-It is recommended to use poetry to create a virtual environment and install the dependencies.
+Use poetry to create a virtual environment and install the dependencies.
 
 Move into `/mockary/mockary` folder and run:
 
