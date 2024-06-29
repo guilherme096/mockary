@@ -1,6 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,virtualenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,virtualenv
-
+*.json
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
