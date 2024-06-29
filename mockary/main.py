@@ -36,7 +36,7 @@ async def health():
 
 
 @app.get("/{mock}")
-async def preset(mock: str, samples: int, randomize: bool = False):
+async def preset(mock: str, samples: int):
     mock = mock.upper()
     path = ""
 
@@ -46,7 +46,7 @@ async def preset(mock: str, samples: int, randomize: bool = False):
     # identifier for cache
     request = str(mock) + "_" + str(samples)
 
-    use_cache = not randomize and request in cache
+    use_cache = request in cache
     if use_cache:
         return cache[request]
 
@@ -66,7 +66,7 @@ async def preset(mock: str, samples: int, randomize: bool = False):
     except KeyError:
         return {"error": "Mock not found"}
 
-    save_data = not randomize and "save" in mock_type and mock_type["save"]
+    save_data = "save" in mock_type and mock_type["save"]
     if save_data:
         if "save_path" in mock_type:
             path = mock_type["save_path"] + ".json"
