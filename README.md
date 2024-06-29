@@ -22,6 +22,8 @@ poetry install
 
 ## Usage
 
+Go to /mockary/mockary and run the following command:
+
 ```bash
 poetry run uvicorn mockary:app
 ```
@@ -69,3 +71,21 @@ The result will be a JSON with the generated data.
     ]
 }
 ```
+
+## Settings
+
+**Global Settings**
+| Option | Description |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `cache` | Can be used in `CONFIG` or individual mock. If true, the generated data will cached in memory. |
+| `max_tokens` | Maximum tokens to generate. Default is the maximum - 4096. |
+| `model` | Especific model to use. Default is `gpt-3.5-turbo`. To use other models use the name as described in the openai documentation |
+| `temperature` | Temperature to use in the model. Default is 1. |
+
+**Mock Settings**  
+| Option | Description |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `save` | Save the generated data to a file. |
+| `save_path` | Path to save the generated data. The default is `./mock_name` |
+| `fields` | Fields to generate data. |
+| `message` | Message to give the AI model context about the data. |
