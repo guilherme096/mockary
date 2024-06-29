@@ -9,11 +9,63 @@ Extremely simple python API to generate mock data for your app using chatgpt ope
 
 ## Features
 
-### Mock Data Generation
+- Mock Data generation for especific fields and context
+- Data caching and saving to file
 
-Using the config.ini file you can especify which fields a mock should contain and the context for it. The API will generate a mock data based on the context and the fields you specified.
+## Installation
 
-### Caching/Saving Mock Data
+It is recommended to use poetry to create a virtual environment and install the dependencies.
 
-If you don't want to generate the same mock data over and over again, you can save it to a file and load it later.
-Also you can cache the mock data in memory to avoid generating it again in the same sessio in the same session.
+```bash
+poetry install
+```
+
+## Usage
+
+```bash
+poetry run uvicorn mockary:app
+```
+
+## Quick Start
+
+Mockary is very simple to use. It only takes around 5 minutes to get it up and running (including the time of reading this guide).
+
+### Add OpenAI API Key
+
+Modify the `.env.example` with the OpenAI Api Key and rename it to `.env`.
+
+### Start the server
+
+```bash
+poetry run uvicorn mockary:app
+```
+
+### Define a Mock
+
+There are some examples in the `config.ini` file. To add a new one use this base template:
+
+```ini
+[MockName]
+fields=field1,field2,field3
+message="Message to give the AI model context about the data"
+cache=true
+```
+
+### Call the API
+
+```bash
+curl -X 'POST' \
+  'http://localhost:8000/MockName?samples=[number of samples]'
+```
+
+The result will be a JSON with the generated data.
+
+```json
+{
+    "data": [
+        {
+            ... generated data ...
+        },
+    ]
+}
+```

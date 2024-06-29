@@ -40,7 +40,7 @@ async def health():
 
 @app.post("/{mock}")
 async def preset(
-    mock: str, samples: int, randomize: bool = False, max_tokens: int = 10000
+    mock: str, samples: int, randomize: bool = False, max_tokens: int = 4096
 ):
     mock = mock.upper()
     path = ""

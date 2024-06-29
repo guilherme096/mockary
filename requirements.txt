@@ -1,8 +1,0 @@
-fastapi
-openai
-uvicorn
-dotenv
-pydantic
-typing
-configparser
-json
