@@ -5,7 +5,7 @@
 A feather weight mock data generator API
 </p>
 
-Extremely simple python API to generate mock data for your app using chatgpt openai model.
+**Extremely simple python API to generate mock data for your app using chatgpt openai model.**
 
 ## Features
 
@@ -18,14 +18,6 @@ It is recommended to use poetry to create a virtual environment and install the 
 
 ```bash
 poetry install
-```
-
-## Usage
-
-Go to /mockary/mockary and run the following command:
-
-```bash
-poetry run uvicorn mockary:app
 ```
 
 ## Quick Start
@@ -44,7 +36,7 @@ poetry run uvicorn mockary:app
 
 ### Define a Mock
 
-There are some examples in the `config.ini` file. To add a new one use this base template:
+There are some examples in the `/mockary/mockary/config.ini` file. To add a new one use this base template:
 
 ```ini
 [MockName]
@@ -56,8 +48,8 @@ cache=true
 ### Call the API
 
 ```bash
-curl -X 'POST' \
-  'http://localhost:8000/MockName?samples=[number of samples]'
+curl -X 'GET' \
+  'http://localhost:8000/[MockName]?samples=[number of samples]'
 ```
 
 The result will be a JSON with the generated data.

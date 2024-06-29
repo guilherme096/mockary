@@ -35,7 +35,7 @@ async def health():
     return {"status": "ok"}
 
 
-@app.post("/{mock}")
+@app.get("/{mock}")
 async def preset(mock: str, samples: int, randomize: bool = False):
     mock = mock.upper()
     path = ""
