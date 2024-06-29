@@ -16,6 +16,8 @@ A feather weight mock data generator API
 
 It is recommended to use poetry to create a virtual environment and install the dependencies.
 
+Move into `/mockary/mockary` folder and run:
+
 ```bash
 poetry install
 ```
@@ -30,8 +32,10 @@ Modify the `.env.example` with the OpenAI Api Key and rename it to `.env`.
 
 ### Start the server
 
+Inside the `/mockary/mockary` directory run:
+
 ```bash
-poetry run uvicorn mockary:app
+poetry run uvicorn main:app
 ```
 
 ### Define a Mock
